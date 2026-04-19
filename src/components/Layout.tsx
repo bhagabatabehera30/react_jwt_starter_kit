@@ -8,7 +8,7 @@ import { Input } from './ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from './ui/sheet';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Bell, Search, Menu, Settings, User, LogOut, Moon, Sun, Languages } from 'lucide-react';
@@ -80,7 +80,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             zIndex: 99999, 
             opacity: 1 
           }}
+          aria-describedby={undefined}
         >
+          <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
           <div className="flex h-16 shrink-0 items-center px-4">
             <h1 className="text-xl font-bold">Dashboard</h1>
           </div>
@@ -267,7 +269,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Settings className="h-6 w-6" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="right" className="w-80">
+        <SheetContent 
+          side="right" 
+          className="w-80 border-slate-200 dark:border-slate-800"
+          style={{ 
+            backgroundColor: theme === 'dark' ? '#0f172a' : '#ffffff', 
+            color: theme === 'dark' ? '#f8fafc' : '#0f172a',
+            zIndex: 99999, 
+            opacity: 1 
+          }}
+          aria-describedby={undefined}
+        >
+          <SheetTitle className="sr-only">Settings Menu</SheetTitle>
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Settings</h2>
