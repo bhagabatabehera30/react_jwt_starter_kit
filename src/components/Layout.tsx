@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from 'next-themes';
@@ -25,10 +26,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
 
+  const location = useLocation();
+
   const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Users', href: '#', current: false },
-    { name: 'Settings', href: '#', current: false },
+    { name: 'Dashboard', href: '/' },
+    { name: 'Users', href: '/users' },
+    { name: 'Settings', href: '/settings' },
   ];
 
   return (
@@ -49,19 +52,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${item.current
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  {navigation.map((item) => {
+                    const isCurrent = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
+                    return (
+                      <li key={item.name}>
+                        <Link
+                          to={item.href}
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold transition-colors ${
+                            isCurrent
+                              ? 'bg-primary text-primary-foreground shadow-sm'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                           }`}
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             </ul>
@@ -90,19 +97,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${item.current
-                          ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  {navigation.map((item) => {
+                    const isCurrent = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
+                    return (
+                      <li key={item.name}>
+                        <Link
+                          to={item.href}
+                          onClick={() => setSidebarOpen(false)}
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold transition-colors ${
+                            isCurrent
+                              ? 'bg-primary text-primary-foreground shadow-sm'
+                              : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                           }`}
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
+                        >
+                          {item.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             </ul>
